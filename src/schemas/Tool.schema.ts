@@ -1,4 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+
+export interface Tool extends Document {
+    id: number;
+    name: string;
+    durability: number;
+    isActive: boolean;
+    grade: string;
+    createdAt: Date;
+    updatedAt: Date;
+    types: string[];
+    additional: ToolAdditional
+} 
+
+interface ToolAdditional extends Document {
+    color: string;
+    height: number;
+    weight: number;
+}
 
 const additionalSchema = new mongoose.Schema({
     color: {

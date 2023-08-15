@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import ToolSchema from "./schemas/Tool.schema";
+import ToolSchema, { Tool } from "./schemas/Tool.schema";
 
 mongoose.connect("mongodb://localhost/school");
 
@@ -57,5 +57,20 @@ async function createToolV2(): Promise<void> {
     }
 }
 
+// Find Data
+async function findTool(): Promise<Tool | null> {
+    return await ToolSchema.findById("64db81f3c873c8d7bc9dd801");
+}
+
 // createToolWithArgument("Not Default!");
 // createToolV2();
+// const tool = await findTool();
+// console.log(tool);
+// findTool().then((data) => {
+//     console.log(data);
+// });
+
+(async () => {
+    const tool = await findTool();
+    console.log(tool?.additional?.weight);
+})();
