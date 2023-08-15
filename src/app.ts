@@ -23,4 +23,18 @@ async function createToolWithCreateKeyword(): Promise<void> {
     });
 }
 
-// createTool();
+// Create data with argument
+async function createToolWithArgument(toolName: string = ""): Promise<void> {
+    const tool = await ToolSchema.create({
+        name: "By Default",
+        durability: 9999,
+        isActive: true
+    });
+    if (toolName?.length > 0) {
+        // @ts-ignore
+        tool.name = toolName;
+        await tool.save();
+    }
+}
+
+// createToolWithArgument("Not Default!");
