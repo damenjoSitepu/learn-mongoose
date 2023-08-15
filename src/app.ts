@@ -62,6 +62,13 @@ async function findTool(): Promise<Tool | null> {
     return await ToolSchema.findById("64db81f3c873c8d7bc9dd801");
 }
 
+async function findToolSelect(): Promise<any> {
+    const tool = await ToolSchema.findOne({ name: "Computer" }).select(["name"]);
+    console.log(tool?.name);
+}
+
+findToolSelect();
+
 // createToolWithArgument("Not Default!");
 // createToolV2();
 // const tool = await findTool();
@@ -70,7 +77,7 @@ async function findTool(): Promise<Tool | null> {
 //     console.log(data);
 // });
 
-(async () => {
-    const tool = await findTool();
-    console.log(tool?.additional?.weight);
-})();
+// (async () => {
+//     const tool = await findTool();
+//     console.log(tool?.additional?.weight);
+// })();
