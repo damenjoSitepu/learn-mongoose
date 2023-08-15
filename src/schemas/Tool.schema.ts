@@ -7,7 +7,10 @@ const additionalSchema = new mongoose.Schema({
 });
 
 const toolSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true
+    },
     durability: Number,
     isActive: Boolean,
     grade: String,
