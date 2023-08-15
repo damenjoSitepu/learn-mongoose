@@ -14,7 +14,11 @@ const toolSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    durability: Number,
+    durability: {
+        type: Number,
+        min: 0,
+        max: 9999
+    },
     isActive: Boolean,
     grade: String,
     createdAt: {
