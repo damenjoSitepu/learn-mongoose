@@ -53,7 +53,10 @@ const toolSchema = new mongoose.Schema({
         immutable: true,
         default: () => Date.now()
     },
-    sameFunctionality: mongoose.SchemaTypes.ObjectId,
+    sameFunctionality: {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "Tool"
+    },
     types: [String],
     additional: additionalSchema
 });

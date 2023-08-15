@@ -36,14 +36,22 @@ async function createToolWithArgument(toolName: string = ""): Promise<void> {
     }
 }
 
+async function updateTool(): Promise<void> {
+    const tool = await ToolSchema.findById("64db81f3c873c8d7bc9dd801");
+    if (tool !== null) {
+        tool.sameFunctionality = new mongoose.Types.ObjectId("64db8b3414884527d63b15cf");
+        await tool?.save();
+    }
+}
+
 // Create Data with advanced mode 
 async function createToolV2(): Promise<void> {
     try {
         const tool = await ToolSchema.create({
-            name: "Computer",
+            name: "Beb Computer",
             durability: 50,
             isActive: true,
-            types: ["C-001", "B-001"],
+            types: ["C-004", "B-005"],
             additional: {
                 color: "Gold",
                 weight: 100
@@ -67,7 +75,14 @@ async function findToolSelect(): Promise<any> {
     console.log(tool?.name);
 }
 
-findToolSelect();
+async function findToolWithRelation(): Promise<any> {
+    const tool = await ToolSchema.findOne({ name: "Computer" }).populate("sameFunctionality");
+    console.log(tool);
+}
+
+findToolWithRelation();
+
+// findToolSelect();
 
 // createToolWithArgument("Not Default!");
 // createToolV2();
