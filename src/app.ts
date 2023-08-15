@@ -31,10 +31,24 @@ async function createToolWithArgument(toolName: string = ""): Promise<void> {
         isActive: true
     });
     if (toolName?.length > 0) {
-        // @ts-ignore
         tool.name = toolName;
         await tool.save();
     }
 }
 
+// Create Data with advanced mode 
+async function createToolV2(): Promise<void> {
+    await ToolSchema.create({
+        name: "Computer",
+        durability: 10000,
+        isActive: true,
+        types: ["C-001", "B-001"],
+        additional: {
+            color: "Gold",
+            weight: 100
+        }
+    });
+}
+
 // createToolWithArgument("Not Default!");
+// createToolV2();
