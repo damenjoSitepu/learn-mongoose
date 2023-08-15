@@ -80,7 +80,14 @@ async function findToolWithRelation(): Promise<any> {
     console.log(tool);
 }
 
-findToolWithRelation();
+async function findCustomTool(): Promise<void> {
+    // const tool = await ToolSchema.findById("64db81f3c873c8d7bc9dd801");
+    const tool = await ToolSchema.byName("beb computer");
+    console.log(tool);
+}
+
+// findToolWithRelation();
+findCustomTool();
 
 // findToolSelect();
 

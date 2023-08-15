@@ -1,4 +1,8 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Query, Model } from "mongoose";
+
+export interface ToolModel extends Model<Tool> {
+    byName(name: string): Query<Tool[], Tool, {}>;
+}
 
 export interface Tool extends Document {
     id: number;
@@ -9,7 +13,8 @@ export interface Tool extends Document {
     createdAt: Date;
     updatedAt: Date;
     types: string[];
-    additional: ToolAdditional
+    additional: ToolAdditional;
+    sameFunctionality: mongoose.Types.ObjectId;
 } 
 
 interface ToolAdditional extends Document {
@@ -18,7 +23,7 @@ interface ToolAdditional extends Document {
     weight: number;
 }
 
-const additionalSchema = new mongoose.Schema({
+const additionalSchema = new mongoose.Schema<ToolAdditional>({
     color: {
         type: String,
         lowercase: true
@@ -27,7 +32,7 @@ const additionalSchema = new mongoose.Schema({
     weight: Number
 });
 
-const toolSchema = new mongoose.Schema({
+const toolSchema = new mongoose.Schema<Tool>({
     name: {
         type: String,
         required: true
@@ -61,4 +66,10 @@ const toolSchema = new mongoose.Schema({
     additional: additionalSchema
 });
 
-export default mongoose.model("Tool", toolSchema);
+toolSchema.statics.byName = function (name: string): Query<Tool[],Tool,{}> {
+    return this.where({ name: new RegExp(name, "i") });
+};
+
+const ToolModel: ToolModel = mongoose.model<Tool, ToolModel>("Tool", toolSchema);
+
+export default ToolModel;
