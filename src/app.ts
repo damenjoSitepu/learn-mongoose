@@ -38,16 +38,21 @@ async function createToolWithArgument(toolName: string = ""): Promise<void> {
 
 // Create Data with advanced mode 
 async function createToolV2(): Promise<void> {
-    await ToolSchema.create({
-        name: "Computer",
-        durability: 10000,
-        isActive: true,
-        types: ["C-001", "B-001"],
-        additional: {
-            color: "Gold",
-            weight: 100
-        }
-    });
+    try {
+        await ToolSchema.create({
+            name: "Computer",
+            durability: 10000,
+            isActive: true,
+            types: ["C-001", "B-001"],
+            additional: {
+                color: "Gold",
+                weight: 100
+            },
+        });
+    } catch (e: any) {
+        console.log(e.message);
+        // console.log(e.errors.durability)
+    }
 }
 
 // createToolWithArgument("Not Default!");
