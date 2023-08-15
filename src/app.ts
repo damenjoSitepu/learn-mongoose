@@ -39,7 +39,7 @@ async function createToolWithArgument(toolName: string = ""): Promise<void> {
 // Create Data with advanced mode 
 async function createToolV2(): Promise<void> {
     try {
-        await ToolSchema.create({
+        const tool = await ToolSchema.create({
             name: "Computer",
             durability: 10000,
             isActive: true,
@@ -49,6 +49,8 @@ async function createToolV2(): Promise<void> {
                 weight: 100
             },
         });
+        tool.createdAt = new Date();
+        await tool.save();
     } catch (e: any) {
         console.log(e.message);
         // console.log(e.errors.durability)
