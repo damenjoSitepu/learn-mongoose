@@ -17,7 +17,11 @@ const toolSchema = new mongoose.Schema({
     durability: {
         type: Number,
         min: 0,
-        max: 9999
+        max: 9999,
+        validate: {
+            validator: (v: number) => v === 50,
+            message: "Durability value must be equals to 50!"
+        }
     },
     isActive: Boolean,
     grade: String,

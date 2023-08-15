@@ -41,7 +41,7 @@ async function createToolV2(): Promise<void> {
     try {
         const tool = await ToolSchema.create({
             name: "Computer",
-            durability: 9999,
+            durability: 50,
             isActive: true,
             types: ["C-001", "B-001"],
             additional: {
