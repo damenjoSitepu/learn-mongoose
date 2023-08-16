@@ -1,9 +1,5 @@
 import mongoose, { Document, Query, Model } from "mongoose";
 
-export interface ToolModel extends Model<Tool> {
-    byName(name: string): Query<Tool[], Tool, {}>;
-}
-
 export interface Tool extends Document {
     id: number;
     name: string;
@@ -23,6 +19,14 @@ interface ToolAdditional extends Document {
     weight: number;
 }
 
+export interface ToolQueryHelper extends Model<Tool> {
+    byName(name: string): Query<Tool[], Tool, {}>;
+}
+
+export interface ToolModel extends Model<Tool, ToolQueryHelper> {
+    findByName(name: string): Query<Tool[], Tool, {}>;
+}
+
 const additionalSchema = new mongoose.Schema<ToolAdditional>({
     color: {
         type: String,
@@ -32,7 +36,7 @@ const additionalSchema = new mongoose.Schema<ToolAdditional>({
     weight: Number
 });
 
-const toolSchema = new mongoose.Schema<Tool>({
+const toolSchema = new mongoose.Schema<Tool, ToolModel, {}, ToolQueryHelper>({
     name: {
         type: String,
         required: true
@@ -66,10 +70,14 @@ const toolSchema = new mongoose.Schema<Tool>({
     additional: additionalSchema
 });
 
-toolSchema.statics.byName = function (name: string): Query<Tool[],Tool,{}> {
-    return this.where({ name: new RegExp(name, "i") });
+toolSchema.statics.findByName = function (name: string): Query<Tool[],Tool,{}> {
+    return this.find({ name: new RegExp(name, "i") });
 };
 
-const ToolModel: ToolModel = mongoose.model<Tool, ToolModel>("Tool", toolSchema);
+toolSchema.query.byName = function (name: string): Query<Tool[], Tool, {}> {
+    return this.where({ name: new RegExp(name, "i") });
+}
+
+const ToolModel: ToolModel = mongoose.model<Tool, ToolModel, ToolQueryHelper>("Tool", toolSchema);
 
 export default ToolModel;
