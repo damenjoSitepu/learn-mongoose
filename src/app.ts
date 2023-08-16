@@ -84,7 +84,10 @@ async function findCustomTool(): Promise<void> {
     // const tool = await ToolSchema.findById("64db81f3c873c8d7bc9dd801");
     const tools = await ToolSchema.findByName("beb CompuTer");
     const tool = await ToolSchema.find().byName("beb computer");
-    console.log(tool);
+    const manyTools = await ToolSchema.find().select(["name", "durability"]);
+    for (let i = 0; i < manyTools?.length; i++) {
+        console.log(manyTools[i].nameWithDurability);
+    }
 }
 
 // findToolWithRelation();

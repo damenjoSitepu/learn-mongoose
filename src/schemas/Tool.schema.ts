@@ -11,6 +11,9 @@ export interface Tool extends Document {
     types: string[];
     additional: ToolAdditional;
     sameFunctionality: mongoose.Types.ObjectId;
+
+    // Append Attribute
+    nameWithDurability?: string;
 } 
 
 interface ToolAdditional extends Document {
@@ -77,6 +80,10 @@ toolSchema.statics.findByName = function (name: string): Query<Tool[],Tool,{}> {
 toolSchema.query.byName = function (name: string): Query<Tool[], Tool, {}> {
     return this.where({ name: new RegExp(name, "i") });
 }
+
+toolSchema.virtual("nameWithDurability").get(function () {
+    return `${this.name} With Durability: ${this.durability}`; 
+});
 
 const ToolModel: ToolModel = mongoose.model<Tool, ToolModel, ToolQueryHelper>("Tool", toolSchema);
 
