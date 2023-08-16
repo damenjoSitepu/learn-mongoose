@@ -1,4 +1,4 @@
-import mongoose, { Document, Query, Model } from "mongoose";
+import mongoose, { Document, Query, Model, CallbackWithoutResultAndOptionalError } from "mongoose";
 
 export interface Tool extends Document {
     id: number;
@@ -83,6 +83,13 @@ toolSchema.query.byName = function (name: string): Query<Tool[], Tool, {}> {
 
 toolSchema.virtual("nameWithDurability").get(function () {
     return `${this.name} With Durability: ${this.durability}`; 
+});
+
+toolSchema.pre("save", function (next: CallbackWithoutResultAndOptionalError) {
+    if (this.name === "Menjo") {
+        throw new Error("Your name cannot be equals to \"Menjo\"")
+    }
+    next();
 });
 
 const ToolModel: ToolModel = mongoose.model<Tool, ToolModel, ToolQueryHelper>("Tool", toolSchema);

@@ -80,18 +80,30 @@ async function findToolWithRelation(): Promise<any> {
     console.log(tool);
 }
 
-async function findCustomTool(): Promise<void> {
-    // const tool = await ToolSchema.findById("64db81f3c873c8d7bc9dd801");
-    const tools = await ToolSchema.findByName("beb CompuTer");
-    const tool = await ToolSchema.find().byName("beb computer");
-    const manyTools = await ToolSchema.find().select(["name", "durability"]);
-    for (let i = 0; i < manyTools?.length; i++) {
-        console.log(manyTools[i].nameWithDurability);
-    }
-}
+// async function findCustomTool(): Promise<void> {
+//     // const tool = await ToolSchema.findById("64db81f3c873c8d7bc9dd801");
+//     const tools = await ToolSchema.findByName("beb CompuTer");
+//     const tool = await ToolSchema.find().byName("beb computer");
+//     const manyTools = await ToolSchema.find().select(["name", "durability"]);
+//     for (let i = 0; i < manyTools?.length; i++) {
+//         console.log(manyTools[i].nameWithDurability);
+//     }
+// }
 
+async function createToolWithError(): Promise<void> {
+    try {
+        const tool = await ToolSchema.create({
+            name: "Menjo",
+            durability: 50
+        });
+    } catch (e: any) {
+        console.log(e.message);
+    }
+ 
+}
+// createToolWithError()
 // findToolWithRelation();
-findCustomTool();
+// findCustomTool();
 
 // findToolSelect();
 
